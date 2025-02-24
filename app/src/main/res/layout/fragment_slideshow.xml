@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/store_fragment_tablayout"
+            android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,109 +37,12 @@
 
         </com.google.android.material.tabs.TabLayout>
 
-        <LinearLayout
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/textSlideshow"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="3/1 등산 멤버 구합니다."
-                    android:textAppearance="?attr/textAppearanceHeadline6"
-                    android:textColor="@android:color/black" />
-
-                <TextView
-                    android:id="@+id/post_content1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="변동사항 있으면 공지하겠습니다. 멤버가 가득차면 종료됩니다."
-                    android:textColor="@android:color/black" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/post_title2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="중고물품 거래합니다."
-                    android:textAppearance="?attr/textAppearanceHeadline6"
-                    android:textColor="@android:color/black" />
-
-                <TextView
-                    android:id="@+id/post_content2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="새로 선물 받아서 기존에 쓰던 청소기를 처분합니다."
-                    android:textColor="@android:color/black" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/post_title3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="번개모임 모집"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
-                    android:textColor="@android:color/black" />
-
-                <TextView
-                    android:id="@+id/post_content3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="변동사항 있으면 공지하겠습니다. 멤버가 가득차면 종료됩니다."
-                    android:textColor="@android:color/black" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/post_title4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="저녁식사 인원 구합니다."
-                    android:textAppearance="?attr/textAppearanceHeadline6"
-                    android:textColor="@android:color/black" />
-
-                <TextView
-                    android:id="@+id/post_content4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="변동사항 있으면 공지하겠습니다. 멤버가 가득차면 종료됩니다."
-                    android:textColor="@android:color/black" />
-
-            </LinearLayout>
+            android:layout_height="match_parent"/>
 
 
-        </LinearLayout>
 
     </LinearLayout>
 
