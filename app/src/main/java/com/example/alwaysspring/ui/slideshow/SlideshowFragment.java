@@ -11,32 +11,29 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.alwaysspring.databinding.FragmentGalleryBinding;
+import com.example.alwaysspring.databinding.FragmentSlideshowBinding;
 import com.example.alwaysspring.ui.viewpage2.VPAdapter2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class SlidershowFragment extends Fragment {
+public class SlideshowFragment extends Fragment {
 
-    private FragmentGalleryBinding binding;
+    private FragmentSlideshowBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SlideshowViewModel galleryViewModel =
+        SlideshowViewModel slideshowViewModel =
                 new ViewModelProvider(this).get(SlideshowViewModel.class);
 
-        binding = FragmentGalleryBinding.inflate(inflater, container, false);
+        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textGallery;
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
-        ViewPager2 viewPager = binding.viewpager; // ViewPager2 참조
+        ViewPager2 viewPager = binding.viewpager;  // ViewPager2 참조
         VPAdapter2 adapter = new VPAdapter2(getActivity());
         viewPager.setAdapter(adapter);
 
-        TabLayout tabLayout = binding.tabLayout; // TabLayout 참조
+        TabLayout tabLayout = binding.tabLayout;  // TabLayout 참조
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> {
                     switch (position) {
