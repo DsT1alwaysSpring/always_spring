@@ -86,7 +86,7 @@
                 android:layout_marginTop="20dp">
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/textSlideshow"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -114,19 +114,19 @@
                     android:padding="16dp">
 
                     <TextView
-                        android:id="@+id/textSlideshow"
+                        android:id="@+id/titleTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="3/1 등산 멤버 구합니다."
+                        android:text=""
                         android:textAppearance="?attr/textAppearanceHeadline6"
                         android:textColor="@android:color/black" />
 
                     <TextView
-                        android:id="@+id/post_content1"
+                        android:id="@+id/contentTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="변동사항 있으면 공지하겠습니다. 멤버가 가득차면 종료됩니다."
+                        android:text=""
                         android:textColor="@android:color/black" />
 
                 </LinearLayout>
