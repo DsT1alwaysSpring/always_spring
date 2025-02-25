@@ -18,8 +18,8 @@ public class VPAdapter extends FragmentStateAdapter {
     public VPAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
         items = new ArrayList<Fragment>();
-        items.add(new ChatFragment());
         items.add(new FriendFragment());
+        items.add(new ChatFragment());
         items.add(new PostFragment());
         items.add(new ProfileFragment());
     }
