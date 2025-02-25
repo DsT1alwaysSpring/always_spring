@@ -1,5 +1,6 @@
 package com.example.alwaysspring.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,13 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         final TextView textView = binding.textViewLogin;
+
+        // textViewLogin을 클릭했을 때 LoginActivity로 이동
+        textView.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        });
+
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
