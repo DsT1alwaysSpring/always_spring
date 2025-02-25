@@ -53,7 +53,7 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    //    Retrofit 라이브러리 추가
+    // Retrofit 라이브러리 추가
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     // JSON <-> Java 객체 변환을 위해 필요
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -61,4 +61,13 @@ dependencies {
 
     // (선택) 네트워크 로깅 인터셉터
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+
+    // Retrofit 라이브러리 추가
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+    // JSON 변환을 위한 Gson 컨버터 추가
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // (선택사항) Retrofit 로그를 위한 HttpLoggingInterceptor 추가
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
 }
