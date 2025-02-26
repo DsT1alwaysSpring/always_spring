@@ -2,6 +2,7 @@ package com.example.alwaysspring.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel =
@@ -61,15 +63,17 @@ public class HomeFragment extends Fragment {
                         Board firstBoard = boardList.get(0);
                         titleTextView.setText(firstBoard.getTitle());
                         contentTextView.setText(firstBoard.getContent());
+                    } else {
+                        Log.d("API_RESPONSE", "Board list is empty");
                     }
                 } else {
-                    // 응답이 성공적이지 않을 때 처리
+                    Log.e("API_ERROR", "Response Code: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<List<Board>> call, Throwable t) {
-                // 요청 실패 시 처리
+                Log.e("API_FAILURE", "Error: " + t.getMessage());
             }
         });
 
