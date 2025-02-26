@@ -10,15 +10,12 @@ import retrofit2.http.Path;
 
 public interface BoardApi {
 
-    // 모든 보드 조회
+
+    // 보드 조회
     @GET("api/board")
     Call<List<Board>> getAllBoard();
 
-    // 특정 보드 조회
-    @GET("api/board/{bIdx}")
-    Call<Board> getBoardById(@Path("bIdx") int bIdx);
-
-    // 보드 생성
+    // 보드 입력
     @POST("api/board")
     Call<Board> createBoard(@Body Board board);
 }
