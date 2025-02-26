@@ -6,12 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.alwaysspring.R;
 import com.example.alwaysspring.api.BoardApi;
 import com.example.alwaysspring.api.RetrofitClient;
 import com.example.alwaysspring.databinding.FragmentHomeBinding;
@@ -27,6 +29,7 @@ import retrofit2.Retrofit;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+    private static final String TAG = "HomeFragment";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -38,8 +41,7 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         final TextView textView = binding.textViewLogin;
-        final TextView titleTextView = binding.titleTextView;
-        final TextView contentTextView = binding.contentTextView;
+        final LinearLayout boardContainer = binding.boardContainer;
 
         // textViewLogin을 클릭했을 때 LoginActivity로 이동
         textView.setOnClickListener(v -> {
@@ -58,22 +60,26 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<List<Board>> call, Response<List<Board>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Board> boardList = response.body();
-                    // 첫 번째 보드 데이터를 가져옴
-                    if (!boardList.isEmpty()) {
-                        Board firstBoard = boardList.get(0);
-                        titleTextView.setText(firstBoard.getTitle());
-                        contentTextView.setText(firstBoard.getContent());
-                    } else {
-                        Log.d("API_RESPONSE", "Board list is empty");
+                    Log.d(TAG, "Response: " + boardList.toString());
+                    // 게시물 리스트를 순회하며 LinearLayout에 TextView 추가
+                    for (Board board : boardList) {
+                        View boardView = LayoutInflater.from(getContext()).inflate(R.layout.board_item, boardContainer, false);
+                        TextView titleTextView = boardView.findViewById(R.id.titleTextView);
+                        TextView contentTextView = boardView.findViewById(R.id.contentTextView);
+
+                        titleTextView.setText(board.getTitle());
+                        contentTextView.setText(board.getContent());
+
+                        boardContainer.addView(boardView);
                     }
                 } else {
-                    Log.e("API_ERROR", "Response Code: " + response.code());
+                    Log.e(TAG, "Response Code: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<List<Board>> call, Throwable t) {
-                Log.e("API_FAILURE", "Error: " + t.getMessage());
+                Log.e(TAG, "Error: " + t.getMessage());
             }
         });
 
