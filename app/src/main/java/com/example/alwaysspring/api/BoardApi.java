@@ -19,10 +19,10 @@ public interface BoardApi {
 //    );
 
     // 보드 조회
-    @GET("api/boardSelectAll")
+    @GET("api/board")
     Call<List<Board>> getAllBoard();
 
     // 보드 입력
-    @POST("api/boardInsert")
+    @POST("api/board")
     Call<Board> createBoard(@Body Board board);
 }
