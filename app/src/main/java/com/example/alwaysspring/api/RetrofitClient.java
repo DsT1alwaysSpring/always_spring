@@ -18,7 +18,7 @@ public class RetrofitClient {
                     .build();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.0.22:8080/") // 올바른 BASE_URL 설정
+                    .baseUrl("http://192.168.0.18:8080/") // 올바른 BASE_URL 설정
                     .client(client) // OkHttp 클라이언트 추가
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
