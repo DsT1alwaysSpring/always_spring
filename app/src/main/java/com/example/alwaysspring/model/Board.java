@@ -17,6 +17,10 @@ public class Board {
         return user_idx;
     }
 
+    public void setUser_idx(Long user_idx) {
+        this.user_idx = user_idx;
+    }
+
     public Long getB_idx() {
         return b_idx;
     }
@@ -76,4 +80,6 @@ public class Board {
     public void setB_state(String b_state) {
         this.b_state = b_state;
     }
+
+
 }
