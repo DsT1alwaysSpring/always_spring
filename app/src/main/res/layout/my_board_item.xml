@@ -25,5 +25,4 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:padding="4dp" />
-
 </LinearLayout>
