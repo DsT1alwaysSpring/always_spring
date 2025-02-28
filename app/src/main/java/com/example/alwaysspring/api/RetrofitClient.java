@@ -14,6 +14,7 @@ public class RetrofitClient {
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(logging) // 로깅 인터셉트 추가
                     .retryOnConnectionFailure(true) // 네트워크 재시도 허용
                     .build();
 

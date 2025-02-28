@@ -14,6 +14,7 @@ public interface UserApi {
     Call<User> login(
             @Query("phone") String phone,
             @Query("password") String password
+
     );
 
     @GET("api/validateLogin")

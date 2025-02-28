@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 
 public class User {
-    private Long user_idx;
+    private Long userIdx;
     private String name;
     private String nickname;
     private Timestamp birth;
@@ -26,8 +26,12 @@ public class User {
     }
 
     public Long getUser_idx() {
-        return user_idx;
+        return userIdx;
     }
+    public void setUser_idx(Long user_idx) {
+        this.userIdx = user_idx;
+    }
+
 
     public String getName() {
         return name;
