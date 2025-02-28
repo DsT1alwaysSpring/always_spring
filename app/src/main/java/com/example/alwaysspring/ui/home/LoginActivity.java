@@ -2,6 +2,7 @@ package com.example.alwaysspring.ui.home;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.alwaysspring.MainActivity;
 import com.example.alwaysspring.R;
 import com.example.alwaysspring.api.RetrofitClient;
 import com.example.alwaysspring.api.UserApi;
@@ -84,6 +86,14 @@ public class LoginActivity extends AppCompatActivity {
                     User user = response.body();
                     if (user != null) {
                         tvLoginResult.setText(String.valueOf(user.getName()) + "님 환영합니다.");
+                        getSharedPreferences("AppPrefs",MODE_PRIVATE)
+                                .edit()
+                                .putString("userPhone",phone)
+                                .apply();
+                        // 메인 화면으로 이동
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish(); //LoginActivity 종료
                     } else {
                         tvLoginResult.setText("로그인 실패: 전화번호 또는 비밀번호가 올바르지 않습니다.");
                     }
