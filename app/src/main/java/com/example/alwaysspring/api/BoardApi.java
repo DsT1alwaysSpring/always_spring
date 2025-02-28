@@ -19,10 +19,7 @@ public interface BoardApi {
 
     // 보드 입력
     @POST("api/board")
-    Call<Board> createBoard(
-            @Body Board board,
-            @Query("userIdx") Long userIdx
-    );
+    Call<Board> createBoard(@Body Board board);
 
 
     // 보드 조회수 증가

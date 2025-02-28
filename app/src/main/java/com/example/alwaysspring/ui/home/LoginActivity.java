@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("LoginActivity", "User Name: " + user.getName());
                         Log.d("LoginActivity", "User Phone: " + user.getPhone());
 
-                                tvLoginResult.setText(String.valueOf(user.getName()) + "님 환영합니다.");
+                        tvLoginResult.setText(String.valueOf(user.getName()) + "님 환영합니다.");
                         getSharedPreferences("AppPrefs", MODE_PRIVATE)
                                 .edit()
                                 .putLong("userIdx", user.getUser_idx()) // SharedPreferences에 저장
