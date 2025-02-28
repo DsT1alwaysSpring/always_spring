@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alwaysspring.MainActivity;
@@ -25,7 +24,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
-
 
 
     @Override
@@ -79,15 +77,15 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         UserApi api = RetrofitClient.getInstance().create(UserApi.class);
-        Call<Boolean> call = api.login(phone,password);
+        Call<User> call = api.login(phone,password);
 
-        call.enqueue(new Callback<Boolean>() {
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    boolean success = response.body();
-                    if (success) {
-                        tvLoginResult.setText("로그인 성공!");
+                    User user = response.body();
+                    if (user != null) {
+                        tvLoginResult.setText(String.valueOf(user.getName()) + "님 환영합니다.");
                         getSharedPreferences("AppPrefs",MODE_PRIVATE)
                                 .edit()
                                 .putString("userPhone",phone)
@@ -105,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 tvLoginResult.setText("네트워크 오류: " + t.getMessage());
             }
         });

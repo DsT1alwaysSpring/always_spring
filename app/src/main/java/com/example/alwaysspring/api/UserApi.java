@@ -11,7 +11,13 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 public interface UserApi {
     @GET("api/login")
-    Call<Boolean> login(
+    Call<User> login(
+            @Query("phone") String phone,
+            @Query("password") String password
+    );
+
+    @GET("api/validateLogin")
+    Call<User> loginValidateLogin(
             @Query("phone") String phone,
             @Query("password") String password
     );
