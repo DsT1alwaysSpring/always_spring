@@ -79,7 +79,7 @@ public class AddPostActivity extends AppCompatActivity {
         Log.d("AddPostActivity", "Content: " + content);
 
         // 서버로 요청
-        Call<Board> call = boardApi.createBoard(board, userIdx);
+        Call<Board> call = boardApi.createBoard(board);
         call.enqueue(new Callback<Board>() {
             @Override
             public void onResponse(Call<Board> call, Response<Board> response) {
