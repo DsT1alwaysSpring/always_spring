@@ -32,4 +32,7 @@ public interface UserApi {
 
    @GET("/api/user/{userIdx}")
    Call<User> getUserById(@Path("userIdx") long userIdx);
+
+
+
 }

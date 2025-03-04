@@ -18,6 +18,9 @@
         android:theme="@style/Theme.AlwaysSpring"
         tools:targetApi="31">
         <activity
+            android:name=".ui.home.RegisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".BoardDetailActivity"
             android:exported="false" />
         <activity

@@ -65,6 +65,20 @@
             android:textAlignment="center"
             android:textColor="#040000"
             android:textSize="20sp" />
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="회원가입"
+            android:textAlignment="center"
+            android:textColor="#040000"
+            android:textSize="20sp"
+            android:layout_marginTop="16dp"
+            android:onClick="onRegisterClick" /> <!-- onClick 속성 추가 -->
+
+
+
+
 
     </LinearLayout>
 
