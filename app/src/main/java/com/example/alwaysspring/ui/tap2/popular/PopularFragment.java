@@ -50,7 +50,7 @@ public class PopularFragment extends Fragment {
                     // 게시물 리스트를 순회하며 LinearLayout에 TextView 추가
                     for (Board board : boardList) {
                         View boardView = LayoutInflater.from(getContext()).inflate(R.layout.board_item, popularBoardContainer, false);
-                        TextView titleTextView = boardView.findViewById(R.id.titleTextView);
+                        TextView titleTextView = boardView.findViewById(R.id.FriendNameTextView);
                         TextView contentTextView = boardView.findViewById(R.id.contentTextView);
 
                         titleTextView.setText(board.getTitle());
