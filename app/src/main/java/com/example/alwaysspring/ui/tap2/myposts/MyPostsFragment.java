@@ -1,5 +1,6 @@
 package com.example.alwaysspring.ui.tap2.myposts;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,15 +28,21 @@ import retrofit2.Retrofit;
 public class MyPostsFragment extends Fragment {
 
     private static final String TAG = "MyPostsFragment";
-    private int userIdx; // 로그인한 사용자의 userIdx
+    private long userIdx; // 로그인한 사용자의 userIdx
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_my_posts, container, false);
 
-        // 예시: 로그인한 사용자의 userIdx 값을 할당 (실제 로그인 로직에 따라 수정 필요)
-        userIdx = 1; // 로그인된 사용자 ID를 가져오는 로직을 구현
+        // SharedPreferences에서 로그인한 사용자 ID(userIdx) 가져오기
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserPreferences", getContext().MODE_PRIVATE);
+        userIdx = sharedPreferences.getLong("userIdx", -1); // 기본값 -1 (로그인되지 않은 경우)
+
+        if (userIdx == -1) {
+            Log.e(TAG, "사용자가 로그인되지 않았습니다.");
+            return root; // 로그인되지 않았으면 게시물 조회하지 않음
+        }
 
         final LinearLayout myPostsBoardContainer = root.findViewById(R.id.myPostsBoardContainer);
 

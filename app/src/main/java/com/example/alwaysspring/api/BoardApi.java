@@ -44,5 +44,8 @@ public interface BoardApi {
 
     // 내가 작성한 게시글 본인 고유번호로 조회
     @GET("api/board/{userIdx}/boards")
-    Call<List<Board>> getBoardsByUserId(@Path("userIdx") int userIdx);
+    Call<List<Board>> getBoardsByUserId(@Path("userIdx") long userIdx);
+
+    @GET("/api/board/{b_idx}")
+    Call<Board> getBoardById(@Path("b_idx") long b_idx);
 }
