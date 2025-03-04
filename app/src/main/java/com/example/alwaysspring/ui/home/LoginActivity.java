@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import com.example.alwaysspring.R;
 import com.example.alwaysspring.api.RetrofitClient;
 import com.example.alwaysspring.api.UserApi;
 import com.example.alwaysspring.model.User;
+import com.example.alwaysspring.ui.home.RegisterActivity;
 
 import java.util.List;
 
@@ -25,12 +27,11 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_login);
+
         TextView tvLoginResult = findViewById(R.id.tvLoginResult);
 
         UserApi api = RetrofitClient.getInstance().create(UserApi.class);
@@ -59,7 +60,11 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e(TAG, "네트워크 오류: " + t.getMessage(), t);
             }
         });
+    }
 
+    public void onRegisterClick(View view) {
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(intent);
     }
 
     public void onClickedLogin(View view) {
@@ -71,8 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = tvPassword.getText().toString();
 
         if (phone.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this
-                    , "전화번호와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "전화번호와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
 

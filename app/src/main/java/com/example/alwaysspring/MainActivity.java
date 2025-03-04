@@ -1,54 +1,67 @@
 package com.example.alwaysspring;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alwaysspring.databinding.ActivityMainBinding;
+import com.example.alwaysspring.ui.home.LoginActivity;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration mAppBarConfiguration; // 앱 바 구성 객체
-    private ActivityMainBinding binding; // 뷰 바인딩을 위한 객체
-    private  long userIdx;
+    private AppBarConfiguration mAppBarConfiguration;
+    private ActivityMainBinding binding;
+    private  String name;
+    private long userIdx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 뷰 바인딩 초기화 및 레이아웃 설정
+        // 뷰 바인딩 초기화
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // LoginActivity에서 전달된 userIdx 가져오기
-        userIdx = getIntent().getLongExtra("userIdx", -1);
+        // SharedPreferences에서 userIdx 가져오기
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+        userIdx = sharedPreferences.getLong("userIdx", -1);
+
+        // LoginActivity에서 전달된 userIdx가 있다면 SharedPreferences에 저장
+        long intentUserIdx = getIntent().getLongExtra("userIdx", -1);
+        if (intentUserIdx != -1) {
+            userIdx = intentUserIdx;
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putLong("userIdx", userIdx);
+            editor.apply();
+        }
 
         // userIdx 유효성 확인
-
+        if (userIdx == -1) {
+            Toast.makeText(this, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
 
         // 툴바 설정
         setSupportActionBar(binding.appBarMain.toolbar);
 
-        // 플로팅 액션 버튼 클릭 시 AddPostActivity 실행
-        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
-                intent.putExtra("userIdx", userIdx); // userIdx 전달
-                startActivity(intent);
-            }
+        // 플로팅 버튼 클릭 시 AddPostActivity 실행
+        binding.appBarMain.fab.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, AddPostActivity.class);
+            intent.putExtra("userIdx", userIdx); // userIdx 전달
+            startActivity(intent);
         });
 
         // 드로어 레이아웃 및 내비게이션 뷰 설정
@@ -73,14 +86,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // 옵션 메뉴를 생성 (액션 바에 메뉴 추가)
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        // 내비게이션 컨트롤러를 통해 상위 화면으로 이동
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();

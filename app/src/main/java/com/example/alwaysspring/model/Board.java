@@ -116,4 +116,6 @@ public class Board {
                 ", b_state='" + b_state + '\'' +
                 '}';
     }
+
+
 }
