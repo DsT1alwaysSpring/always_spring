@@ -28,6 +28,7 @@ public class Board {
     }
 
     // Getter와 Setter 메서드
+
     public Long getB_idx() {
         return b_idx;
     }

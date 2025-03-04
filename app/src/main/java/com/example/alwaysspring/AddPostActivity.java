@@ -87,7 +87,6 @@ public class AddPostActivity extends AppCompatActivity {
                     // 서버 응답 데이터 처리
                     Board responseBody = response.body();
                     Log.d("AddPostActivity", "Response success:");
-                    Log.d("AddPostActivity", "b_idx: " + responseBody.getB_idx());
                     Log.d("AddPostActivity", "b_datetime: " + responseBody.getB_datetime().toString());
 
                     Toast.makeText(AddPostActivity.this, "Post created successfully", Toast.LENGTH_SHORT).show();
@@ -97,12 +96,16 @@ public class AddPostActivity extends AppCompatActivity {
                     Log.e("AddPostActivity", "Response failed. Code: " + response.code());
                     if (response.errorBody() != null) {
                         try {
-                            Log.e("AddPostActivity", "Error body: " + response.errorBody().string());
+                            String errorBody = response.errorBody().string();
+                            Log.e("AddPostActivity", "Error body: " + errorBody);
+                            Toast.makeText(AddPostActivity.this, "Server Error: " + errorBody, Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                             Log.e("AddPostActivity", "Error parsing error body", e);
+                            Toast.makeText(AddPostActivity.this, "Error parsing server response.", Toast.LENGTH_SHORT).show();
                         }
+                    } else {
+                        Toast.makeText(AddPostActivity.this, "Failed to create post: " + response.code(), Toast.LENGTH_SHORT).show();
                     }
-                    Toast.makeText(AddPostActivity.this, "Failed to create post: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -110,7 +113,7 @@ public class AddPostActivity extends AppCompatActivity {
             public void onFailure(Call<Board> call, Throwable t) {
                 // 네트워크 오류 로그
                 Log.e("AddPostActivity", "Network error: " + t.getMessage(), t);
-                Toast.makeText(AddPostActivity.this, "Error occurred while creating post", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddPostActivity.this, "Error occurred while creating post. Please check your connection.", Toast.LENGTH_SHORT).show();
             }
         });
     }

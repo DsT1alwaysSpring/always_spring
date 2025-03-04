@@ -86,19 +86,19 @@ public class LoginActivity extends AppCompatActivity {
                     User user = response.body();
                     if (user != null) {
                         // user_idx 확인 로그 추가
-                        Log.d("LoginActivity", "Received user_idx: " + user.getUser_idx());
+                        Log.d("LoginActivity", "Received user_idx: " + user.getUserIdx());
                         Log.d("LoginActivity", "User Name: " + user.getName());
                         Log.d("LoginActivity", "User Phone: " + user.getPhone());
 
                         tvLoginResult.setText(String.valueOf(user.getName()) + "님 환영합니다.");
                         getSharedPreferences("AppPrefs", MODE_PRIVATE)
                                 .edit()
-                                .putLong("userIdx", user.getUser_idx()) // SharedPreferences에 저장
+                                .putLong("userIdx", user.getUserIdx()) // SharedPreferences에 저장
                                 .apply();
 
                         // 메인 화면으로 이동
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        intent.putExtra("userIdx", user.getUser_idx()); // user_idx 전달
+                        intent.putExtra("userIdx", user.getUserIdx()); // user_idx 전달
                         startActivity(intent);
                         finish(); // LoginActivity 종료
                     } else {

@@ -25,12 +25,20 @@ public class User {
         this.password = password;
     }
 
-    public Long getUser_idx() {
+    public Long getUserIdx() {  // 변경
         return userIdx;
     }
-    public void setUser_idx(Long user_idx) {
-        this.userIdx = user_idx;
+
+    public void setUserIdx(Long userIdx) {  // 변경
+        this.userIdx = userIdx;
     }
+
+//    public Long getUser_idx() {
+//        return userIdx;
+//    }
+//    public void setUser_idx(Long user_idx) {
+//        this.userIdx = user_idx;
+//    }
 
 
     public String getName() {
