@@ -1,9 +1,11 @@
 package com.example.alwaysspring;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
@@ -11,8 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.alwaysspring.api.RetrofitClient;
 import com.example.alwaysspring.api.UserApi;
 import com.example.alwaysspring.model.User;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,6 +25,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
     private EditText etName, etBirth, etPhone, etAddress, etPassword;
     private Button btnRegister;
+    private Date birthDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,7 +39,30 @@ public class RegisterActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnRegister = findViewById(R.id.btnRegister);
 
+        etBirth.setOnClickListener(v -> showDatePickerDialog());
+
         btnRegister.setOnClickListener(v -> registerUser());
+    }
+
+    private void showDatePickerDialog() {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                RegisterActivity.this,
+                (view, year1, month1, dayOfMonth) -> {
+                    Calendar selectedDate = Calendar.getInstance();
+                    selectedDate.set(year1, month1, dayOfMonth);
+                    birthDate = selectedDate.getTime();
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); // 기존 형식 변경
+                    etBirth.setText(format.format(birthDate));
+                },
+                year, month, day
+        );
+
+        datePickerDialog.show();
     }
 
     private void registerUser() {
@@ -47,13 +74,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (name.isEmpty() || birth.isEmpty() || phone.isEmpty() || address.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "모든 필드를 입력해주세요.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // 생년월일을 LocalDate로 변환 (예외 처리 포함)
-        LocalDate birthDate = convertToLocalDate(birth);
-        if (birthDate == null) {
-            Toast.makeText(this, "생년월일 형식이 잘못되었습니다. (예: 1995-03-05)", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -84,22 +104,5 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
-
-    // 입력값을 LocalDate로 변환하는 메서드
-    private LocalDate convertToLocalDate(String birth) {
-        try {
-            // 생년월일이 "601212"처럼 입력되었을 경우 변환
-            if (birth.matches("\\d{6}")) { // 6자리 숫자인 경우
-                String yearPrefix = (Integer.parseInt(birth.substring(0, 2)) > 30) ? "19" : "20";
-                birth = yearPrefix + birth.substring(0, 2) + "-" + birth.substring(2, 4) + "-" + birth.substring(4, 6);
-            }
-
-            // 날짜 포맷을 yyyy-MM-dd로 변환 후 LocalDate 변환
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            return LocalDate.parse(birth, formatter);
-        } catch (Exception e) {
-            Log.e("RegisterActivity", "날짜 변환 오류: " + e.getMessage());
-            return null;
-        }
-    }
 }
+

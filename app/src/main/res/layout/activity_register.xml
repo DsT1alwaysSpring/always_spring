@@ -28,11 +28,13 @@
         android:id="@+id/etBirth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="생년월일 (YYMMDD)"
+        android:hint="생년월일 (YYYY-MM-DD)"
         android:textSize="18sp"
         android:padding="10dp"
         android:layout_marginBottom="10dp"
-        android:inputType="date" />
+        android:focusable="false"
+        android:clickable="true" />
+
 
     <EditText
         android:id="@+id/etPassword"
