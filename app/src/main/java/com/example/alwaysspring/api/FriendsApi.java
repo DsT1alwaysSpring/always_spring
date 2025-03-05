@@ -1,7 +1,7 @@
 package com.example.alwaysspring.api;
 
-import com.example.alwaysspring.model.Friends;
 import com.example.alwaysspring.model.User;
+import com.example.alwaysspring.ui.tab.friend.Friends;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface FriendsApi {
 
     // 사용자 친구(승락) 조회 (GET /api/friends)
     @GET("/api/friends/{userIdx}")
-    Call<List<Friends>> getConfirmedFriends(@Path("userIdx") int userIdx);
+    Call<List<com.example.alwaysspring.ui.tab.friend.Friends>> getConfirmedFriends(@Path("userIdx") int userIdx);
 
     // 주소 기반으로 친구 추천
     @GET("/api/friends/FriendRecommendation/{userIdx}")

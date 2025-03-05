@@ -1,8 +1,5 @@
 package com.example.alwaysspring.ui.tab.friend;
 
-import static android.content.Intent.getIntent;
-import static android.content.Intent.getIntentOld;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import com.example.alwaysspring.R;
 import com.example.alwaysspring.api.FriendsApi;
 import com.example.alwaysspring.api.RetrofitClient;
-import com.example.alwaysspring.model.Friends;
 
 import java.util.ArrayList;
 import java.util.List;
