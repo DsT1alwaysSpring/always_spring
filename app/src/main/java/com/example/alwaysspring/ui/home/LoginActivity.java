@@ -17,7 +17,7 @@ import com.example.alwaysspring.R;
 import com.example.alwaysspring.api.RetrofitClient;
 import com.example.alwaysspring.api.UserApi;
 import com.example.alwaysspring.model.User;
-import com.example.alwaysspring.ui.home.RegisterActivity;
+import com.example.alwaysspring.RegisterActivity;
 
 import java.util.List;
 

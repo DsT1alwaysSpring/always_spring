@@ -54,7 +54,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     // Retrofit 라이브러리 추가
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0") 
     // JSON <-> Java 객체 변환을 위해 필요
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.google.code.gson:gson:2.10.1")

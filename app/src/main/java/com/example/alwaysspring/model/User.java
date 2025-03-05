@@ -1,13 +1,10 @@
 package com.example.alwaysspring.model;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
-
 public class User {
     private Long userIdx;
     private String name;
     private String nickname;
-    private Timestamp birth;
+    private String birth;
     private String phone;
     private String address;
     private String password;
@@ -16,7 +13,7 @@ public class User {
     private String keyword;
     private String purpose;
 
-    public User(String name, String nickname, Timestamp birth, String phone, String address, String password) {
+    public User(String name, String nickname, String birth, String phone, String address, String password) {
         this.name = name;
         this.nickname = nickname;
         this.birth = birth;
@@ -57,11 +54,11 @@ public class User {
         this.nickname = nickname;
     }
 
-    public Timestamp getBirth() {
+    public String getBirth() {
         return birth;
     }
 
-    public void setBirth(Timestamp birth) {
+    public void setBirth(String birth) {
         this.birth = birth;
     }
 

@@ -28,7 +28,7 @@
         android:id="@+id/etBirth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="생년월일 (YYYY-MM-DD)"
+        android:hint="생년월일 (YYMMDD)"
         android:textSize="18sp"
         android:padding="10dp"
         android:layout_marginBottom="10dp"
@@ -39,8 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:hint="비밀번호"
-        android:inputType="textPassword"
+        android:hint="비밀번호(숫자4자리)"
+        android:inputType="numberPassword"
         android:padding="10dp"
         android:textSize="18sp" />
 
@@ -58,7 +58,7 @@
         android:id="@+id/etAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="주소"
+        android:hint="주소(예: 부산시 부산진구 ㅇㅇ대로)"
         android:textSize="18sp"
         android:padding="10dp"
         android:layout_marginBottom="10dp" />

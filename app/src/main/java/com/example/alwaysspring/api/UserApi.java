@@ -11,6 +11,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.Path;
 public interface UserApi {
+
+
     @GET("api/login")
     Call<User> login(
             @Query("phone") String phone,
@@ -27,7 +29,7 @@ public interface UserApi {
     @GET("api/user")
     Call<List<User>> getAllUsers();
 
-    @POST("api/user")
+    @POST("api/user/create")
     Call<User> createUsers(@Body User user);
 
    @GET("/api/user/{userIdx}")

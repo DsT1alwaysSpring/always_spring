@@ -56,6 +56,7 @@ public class HomeFragment extends Fragment {
                     List<Board> boardList = response.body();
                     Log.d(TAG, "Response: " + boardList.toString());
 
+                    // 각 게시물을 동적으로 추가
                     for (Board board : boardList) {
                         View boardView = LayoutInflater.from(getContext()).inflate(R.layout.board_item, boardContainer, false);
                         TextView titleTextView = boardView.findViewById(R.id.titleTextView);
@@ -64,12 +65,14 @@ public class HomeFragment extends Fragment {
                         titleTextView.setText(board.getTitle());
                         contentTextView.setText(board.getContent());
 
+                        // 게시물 클릭 시 상세 페이지로 이동
                         boardView.setOnClickListener(v -> {
                             Intent intent = new Intent(getActivity(), BoardDetailActivity.class);
                             intent.putExtra("b_idx", board.getB_idx());
                             startActivity(intent);
                         });
 
+                        // 게시물을 boardContainer에 추가
                         boardContainer.addView(boardView);
                     }
                 } else {
@@ -113,3 +116,5 @@ public class HomeFragment extends Fragment {
         }
     }
 }
+
+
