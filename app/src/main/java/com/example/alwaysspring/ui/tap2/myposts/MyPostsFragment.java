@@ -61,7 +61,7 @@ public class MyPostsFragment extends Fragment {
                     // 게시물 리스트를 순회하며 LinearLayout에 TextView 추가
                     for (Board board : boardList) {
                         View boardView = LayoutInflater.from(getContext()).inflate(R.layout.my_board_item, myPostsBoardContainer, false);
-                        TextView titleTextView = boardView.findViewById(R.id.FriendNameTextView);
+                        TextView titleTextView = boardView.findViewById(R.id.titleTextView);
                         TextView contentTextView = boardView.findViewById(R.id.contentTextView);
 
                         titleTextView.setText(board.getTitle());

@@ -61,7 +61,7 @@ public class FriendFragment extends Fragment {
                         // friendName을 TextView에 설정하여 LinearLayout에 추가
                         View friendView = LayoutInflater.from(getContext()).inflate(R.layout.my_friend_item, myFriendsListContainer, false);
 
-                        TextView friendNameTextView = friendView.findViewById(R.id.FriendNameTextView);
+                        TextView friendNameTextView = friendView.findViewById(R.id.titleTextView);
                         friendNameTextView.setText(friend.getFriendName());
 
                         myFriendsListContainer.addView(friendView);

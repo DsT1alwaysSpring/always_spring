@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
 
                     for (Board board : boardList) {
                         View boardView = LayoutInflater.from(getContext()).inflate(R.layout.board_item, boardContainer, false);
-                        TextView titleTextView = boardView.findViewById(R.id.FriendNameTextView);
+                        TextView titleTextView = boardView.findViewById(R.id.titleTextView);
                         TextView contentTextView = boardView.findViewById(R.id.contentTextView);
 
                         titleTextView.setText(board.getTitle());
