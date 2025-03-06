@@ -54,19 +54,18 @@ public class BoardDetailActivity extends AppCompatActivity {
 
         // 📌 Retrofit으로 서버에서 게시글 데이터 가져오기
         BoardApi boardApi = RetrofitClient.getInstance().create(BoardApi.class);
-        Call<Board> callBoard = boardApi.getBoardById(b_idx);
+
+        // 게시글 조회
+        Call<Board> callBoard = boardApi.getBoardBybIdx((int) b_idx);
         callBoard.enqueue(new Callback<Board>() {
             @Override
             public void onResponse(Call<Board> call, Response<Board> response) {
-                progressBar.setVisibility(View.GONE); // ✅ 로딩 완료 (숨김 처리)
-
                 if (response.isSuccessful() && response.body() != null) {
                     Board board = response.body();
 
                     titleTextView.setText(board.getTitle());
                     contentTextView.setText(board.getContent());
 
-                    // 📌 날짜 형식 변환 (null 체크 추가)
                     if (board.getB_datetime() != null) {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                         String formattedDate = sdf.format(board.getB_datetime());
@@ -77,34 +76,36 @@ public class BoardDetailActivity extends AppCompatActivity {
 
                     viewsTextView.setText("조회수: " + board.getViews());
 
-                    long userIdx = board.getUser_idx();
-                    if (userIdx == -1 || userIdx == 0) {  // userIdx가 유효하지 않은 경우
-                        nameTextView.setText("작성자 정보 없음");
-                        return;
-                    }
+                    Long userIdxObj = board.getUser_idx(); // user_idx를 Long으로 안전하게 가져옴
+                    if (userIdxObj != null) {
+                        long userIdx = userIdxObj.longValue();
+                        // 사용자 데이터 가져오기
+                        UserApi userApi = RetrofitClient.getInstance().create(UserApi.class);
+                        Call<User> callUser = userApi.getUserById(userIdx);
+                        callUser.enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                if (response.isSuccessful() && response.body() != null) {
+                                    User user = response.body();
+                                    nameTextView.setText(user.getName());
+                                } else {
+                                    nameTextView.setText("작성자 정보 없음");
+                                }
+                            }
 
-                    // 📌 사용자 정보 가져오기
-                    UserApi userApi = RetrofitClient.getInstance().create(UserApi.class);
-                    Call<User> callUser = userApi.getUserById(userIdx);
-                    callUser.enqueue(new Callback<User>() {
-                        @Override
-                        public void onResponse(Call<User> call, Response<User> response) {
-                            if (response.isSuccessful() && response.body() != null) {
-                                User user = response.body();
-                                nameTextView.setText(user.getName());
-                            } else {
-                                Log.e(TAG, "사용자 정보 응답 코드: " + response.code());
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
                                 nameTextView.setText("작성자 정보 없음");
                             }
-                        }
+                        });
+                    } else {
+                        nameTextView.setText("작성자 정보 없음");
+                    }
 
-                        @Override
-                        public void onFailure(Call<User> call, Throwable t) {
-                            Log.e(TAG, "사용자 정보 가져오기 실패: " + t.getMessage());
-                            nameTextView.setText("작성자 정보 없음");
-                        }
-                    });
+                    // 보드 조회수 증가
+                    increaseBoardViews(board.getB_idx());
 
+                    progressBar.setVisibility(View.GONE); // ✅ 로딩 종료
                 } else {
                     Log.e(TAG, "게시글 응답 코드: " + response.code());
                     Toast.makeText(BoardDetailActivity.this, "게시글 정보를 가져오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
@@ -119,4 +120,36 @@ public class BoardDetailActivity extends AppCompatActivity {
             }
         });
     }
+
+    // 조회수 증가 메서드 추가
+    private void increaseBoardViews(int bIdx) {
+        BoardApi boardApi = RetrofitClient.getInstance().create(BoardApi.class);
+        Call<Void> callIncreaseViews = boardApi.increaseBoardViews(bIdx);
+        callIncreaseViews.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "조회수 증가 성공");
+                } else {
+                    Log.e(TAG, "조회수 증가 실패: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e(TAG, "조회수 증가 요청 실패: " + t.getMessage());
+            }
+        });
+    }
 }
+
+
+//            @Override
+//            public void onFailure(Call<Board> call, Throwable t) {
+//                progressBar.setVisibility(View.GONE); // 로딩 종료
+//                Log.e(TAG, "게시글 요청 실패: " + t.getMessage());
+//                Toast.makeText(BoardDetailActivity.this, "네트워크 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+//}

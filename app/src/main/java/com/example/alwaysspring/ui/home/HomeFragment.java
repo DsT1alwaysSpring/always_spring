@@ -67,8 +67,7 @@ public class HomeFragment extends Fragment {
                         contentTextView.setText(board.getContent());
 
                         // 게시물 클릭 시 상세 페이지로 이동 (b_idx는 화면에 표시 안 함)
-                        long boardId = (board.getB_idx() != null) ? board.getB_idx() : -1; // 기본값 -1 할당
-                        Log.d(TAG, "게시글 ID (b_idx): " + boardId);
+                        long boardId = board.getB_idx(); // b_idx 값을 받아오기
                         boardView.setOnClickListener(v -> {
                             Log.d(TAG, "클릭한 게시글 ID: " + boardId); // 클릭 시 ID 확인
                             Intent intent = new Intent(getActivity(), BoardDetailActivity.class);
