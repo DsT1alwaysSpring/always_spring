@@ -1,5 +1,6 @@
 package com.example.alwaysspring.ui.tap2.popular;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.alwaysspring.BoardDetailActivity;
 import com.example.alwaysspring.R;
 import com.example.alwaysspring.api.BoardApi;
 import com.example.alwaysspring.api.RetrofitClient;
@@ -55,6 +57,15 @@ public class PopularFragment extends Fragment {
 
                         titleTextView.setText(board.getTitle());
                         contentTextView.setText(board.getContent());
+
+                        long boardId = board.getB_idx(); // b_idx 값을 받아오기
+                        boardView.setOnClickListener(v -> {
+                            Log.d(TAG, "클릭한 게시글 ID: " + boardId); // 클릭 시 ID 확인
+                            Intent intent = new Intent(getActivity(), BoardDetailActivity.class);
+                            intent.putExtra("b_idx", boardId); // b_idx 전달
+                            startActivity(intent);
+                        });
+
 
                         popularBoardContainer.addView(boardView);
                     }

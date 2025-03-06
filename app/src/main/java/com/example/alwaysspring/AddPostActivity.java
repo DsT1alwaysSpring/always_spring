@@ -36,7 +36,7 @@ public class AddPostActivity extends AppCompatActivity {
         buttonSubmit = findViewById(R.id.buttonSubmit);
 
         // LoginActivity에서 전달된 userIdx 가져오기
-        userIdx = getIntent().getLongExtra("userIdx", -1);
+        userIdx = getIntent().getLongExtra("userIdx", userIdx);
 
         if (userIdx == -1) {
             Toast.makeText(this, "User ID is invalid. Please log in again.", Toast.LENGTH_SHORT).show();
