@@ -29,8 +29,8 @@ public class Board {
 
     // Getter와 Setter 메서드
 
-    public Long getB_idx() {
-        return b_idx;
+    public int getB_idx() {
+        return Math.toIntExact(b_idx);
     }
 
     public void setB_idx(Long b_idx) {

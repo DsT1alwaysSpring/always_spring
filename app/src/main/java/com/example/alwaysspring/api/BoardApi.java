@@ -34,6 +34,7 @@ public interface BoardApi {
     @GET("api/board/bIdx")
     Call<Board> getBoardBybIdx(@Query("board") int bIdx);
 
+
     // 보드 수정
     @PUT("api/board/{bIdx}")
     Call<Board> updateBoard(@Path("bIdx") int bIdx, @Body Board updatedBoard);
