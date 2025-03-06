@@ -54,10 +54,11 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<List<Board>> call, Response<List<Board>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Board> boardList = response.body();
-                    Log.d(TAG, "Response: " + boardList.toString());
+                    Log.d(TAG, "게시글 리스트: " + boardList.toString());
 
-                    // 각 게시물을 동적으로 추가
                     for (Board board : boardList) {
+                        Log.d(TAG, "게시글 ID (b_idx): " + board.getB_idx()); // 확인용 로그
+
                         View boardView = LayoutInflater.from(getContext()).inflate(R.layout.board_item, boardContainer, false);
                         TextView titleTextView = boardView.findViewById(R.id.titleTextView);
                         TextView contentTextView = boardView.findViewById(R.id.contentTextView);
@@ -65,14 +66,16 @@ public class HomeFragment extends Fragment {
                         titleTextView.setText(board.getTitle());
                         contentTextView.setText(board.getContent());
 
-                        // 게시물 클릭 시 상세 페이지로 이동
+                        // 게시물 클릭 시 상세 페이지로 이동 (b_idx는 화면에 표시 안 함)
+                        long boardId = (board.getB_idx() != null) ? board.getB_idx() : -1; // 기본값 -1 할당
+                        Log.d(TAG, "게시글 ID (b_idx): " + boardId);
                         boardView.setOnClickListener(v -> {
+                            Log.d(TAG, "클릭한 게시글 ID: " + boardId); // 클릭 시 ID 확인
                             Intent intent = new Intent(getActivity(), BoardDetailActivity.class);
-                            intent.putExtra("b_idx", board.getB_idx());
+                            intent.putExtra("b_idx", boardId); // b_idx 전달
                             startActivity(intent);
                         });
 
-                        // 게시물을 boardContainer에 추가
                         boardContainer.addView(boardView);
                     }
                 } else {
@@ -85,6 +88,7 @@ public class HomeFragment extends Fragment {
                 Log.e(TAG, "Error: " + t.getMessage());
             }
         });
+
 
         return root;
     }

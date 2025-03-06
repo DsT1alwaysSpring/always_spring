@@ -10,7 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.alwaysspring.R;
 import com.example.alwaysspring.api.BoardApi;
 import com.example.alwaysspring.api.RetrofitClient;
 import com.example.alwaysspring.api.UserApi;
@@ -18,6 +17,7 @@ import com.example.alwaysspring.model.Board;
 import com.example.alwaysspring.model.User;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,35 +27,38 @@ public class BoardDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "BoardDetailActivity";
     private ProgressBar progressBar;
+    private TextView titleTextView, nameTextView, contentTextView, datetimeTextView, viewsTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_detail);
 
-        TextView titleTextView = findViewById(R.id.titleTextView);
-        TextView nameTextView = findViewById(R.id.nameTextView);
-        TextView contentTextView = findViewById(R.id.contentTextView);
-        TextView datetimeTextView = findViewById(R.id.datetimeTextView);
-        TextView viewsTextView = findViewById(R.id.viewsTextView);
+        // XML 요소 연결
+        titleTextView = findViewById(R.id.titleTextView);
+        nameTextView = findViewById(R.id.nameTextView);
+        contentTextView = findViewById(R.id.contentTextView);
+        datetimeTextView = findViewById(R.id.datetimeTextView);
+        viewsTextView = findViewById(R.id.viewsTextView);
         progressBar = findViewById(R.id.progressBar);
 
         long b_idx = getIntent().getLongExtra("b_idx", -1);
+        Log.d(TAG, "Received b_idx: " + b_idx); // 디버깅 로그 추가
         if (b_idx == -1) {
             Toast.makeText(this, "유효하지 않은 게시글입니다.", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE); // 로딩 시작
+        progressBar.setVisibility(View.VISIBLE); // 🔄 로딩 시작
 
-        // b_idx를 사용하여 게시글 상세 정보 조회
+        // 📌 Retrofit으로 서버에서 게시글 데이터 가져오기
         BoardApi boardApi = RetrofitClient.getInstance().create(BoardApi.class);
         Call<Board> callBoard = boardApi.getBoardById(b_idx);
         callBoard.enqueue(new Callback<Board>() {
             @Override
             public void onResponse(Call<Board> call, Response<Board> response) {
-                progressBar.setVisibility(View.GONE); // 로딩 종료
+                progressBar.setVisibility(View.GONE); // ✅ 로딩 완료 (숨김 처리)
 
                 if (response.isSuccessful() && response.body() != null) {
                     Board board = response.body();
@@ -63,16 +66,24 @@ public class BoardDetailActivity extends AppCompatActivity {
                     titleTextView.setText(board.getTitle());
                     contentTextView.setText(board.getContent());
 
-                    // 날짜 형식 변환
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    String formattedDate = sdf.format(board.getB_datetime());
-                    datetimeTextView.setText(formattedDate);
+                    // 📌 날짜 형식 변환 (null 체크 추가)
+                    if (board.getB_datetime() != null) {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                        String formattedDate = sdf.format(board.getB_datetime());
+                        datetimeTextView.setText(formattedDate);
+                    } else {
+                        datetimeTextView.setText("날짜 정보 없음");
+                    }
 
-                    viewsTextView.setText(String.valueOf(board.getViews()));
+                    viewsTextView.setText("조회수: " + board.getViews());
 
                     long userIdx = board.getUser_idx();
+                    if (userIdx == -1 || userIdx == 0) {  // userIdx가 유효하지 않은 경우
+                        nameTextView.setText("작성자 정보 없음");
+                        return;
+                    }
 
-                    // user_idx를 사용하여 사용자 정보를 조회
+                    // 📌 사용자 정보 가져오기
                     UserApi userApi = RetrofitClient.getInstance().create(UserApi.class);
                     Call<User> callUser = userApi.getUserById(userIdx);
                     callUser.enqueue(new Callback<User>() {
@@ -82,26 +93,29 @@ public class BoardDetailActivity extends AppCompatActivity {
                                 User user = response.body();
                                 nameTextView.setText(user.getName());
                             } else {
-                                Log.e(TAG, "Response Code: " + response.code());
+                                Log.e(TAG, "사용자 정보 응답 코드: " + response.code());
+                                nameTextView.setText("작성자 정보 없음");
                             }
                         }
 
                         @Override
                         public void onFailure(Call<User> call, Throwable t) {
-                            Log.e(TAG, "Error: " + t.getMessage());
-                            Toast.makeText(BoardDetailActivity.this, "사용자 정보를 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "사용자 정보 가져오기 실패: " + t.getMessage());
+                            nameTextView.setText("작성자 정보 없음");
                         }
                     });
+
                 } else {
-                    Log.e(TAG, "Response Code: " + response.code());
+                    Log.e(TAG, "게시글 응답 코드: " + response.code());
+                    Toast.makeText(BoardDetailActivity.this, "게시글 정보를 가져오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Board> call, Throwable t) {
                 progressBar.setVisibility(View.GONE); // 로딩 종료
-                Log.e(TAG, "Error: " + t.getMessage());
-                Toast.makeText(BoardDetailActivity.this, "게시글 정보를 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "게시글 요청 실패: " + t.getMessage());
+                Toast.makeText(BoardDetailActivity.this, "네트워크 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }
